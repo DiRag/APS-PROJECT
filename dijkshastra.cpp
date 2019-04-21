@@ -1,5 +1,6 @@
-#include<iostream>
+
 #include<bits/stdc++.h>
+
 using namespace std;
 void print(int key[], int n)
 {
@@ -9,6 +10,16 @@ void print(int key[], int n)
        }
        cout<<"\n";
 
+}
+bool find(vector <int> arr, int t )
+{
+   for(auto i: arr)
+      {
+          if(i==t)
+             return false;
+
+      }
+   return true;
 }
 void dijkshastra( int** graph,int n , int u)
 {  int* p=new int[n];
@@ -34,14 +45,17 @@ for(int i=0;i<n;++i)
   {
       pq.push(key[i]);
   }
+  vector<int> arr;
 while(!pq.empty())
 {   
       int t=pq.top();
       pq.pop();
-    for(int i=0;i<n;++i)          
+      arr.push_back(t);
+      priority_queue <int, vector<int>, greater<int> > pq;
+    for(int i =0;i<=n;++i)          
          {
 
-             if(graph[t][i])
+             if(graph[t][i]&&find(arr,t))
                 {
                      if((graph[t][i]+key[i])<key[i])
                        {
@@ -68,7 +82,7 @@ int main()
   int n=4, u ;
   int** graph=new int*[n];
     for (int i=0;i<n;++i)
-    { 
+    {  graph[i] =new int[n];
         for(int j=0;j<n;++j)
              cin>>graph[i][j];
 
