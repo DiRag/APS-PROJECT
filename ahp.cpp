@@ -1,4 +1,9 @@
+
+  
 #include<iostream>
+#include<vector>
+#include<bits/stdc++.h>
+#include "print_distances.cpp" 
 using namespace std;
 struct comb
 {
@@ -12,8 +17,8 @@ struct cp
     float checkpoint[3][3];
 
 };
-void combination(int arr[],struct cp point[4],float h[3][4],int no_of_checkpoints);// function to compare the houses pairwise
-void set_priority(int m,int n,int x,int y,float h[3][4],struct cp point[4] ,int checkpoint_no);// compares the priorities pairwise and assign them in a table
+void combination(int arr[],struct cp point[4],vector<vector<float>> h,int no_of_checkpoints);// function to compare the houses pairwise
+void set_priority(int m,int n,int x,int y,vector<vector<float> > h,struct cp point[4] ,int checkpoint_no);// compares the priorities pairwise and assign them in a table
 void col_row(float col[4][3],float row[3][4],struct cp point[4]);
 int final_priority(float row[3][4],int priority[4]);
 
@@ -33,9 +38,11 @@ for(int i=0;i<no_of_checkpoints;i++)
     int arr[3]={0,1,2};
 //struct comb f[3][2];
 
-    float h[3][4]={{100,300,200,400},
+     vector<vector<float>> h= get_distance();
+     
+     /*{{100,300,200,400},
                 {200,500,100,300},
-                {200,100,400,300}};
+                {200,100,400,300}};*/
 
     combination(arr,point,h,no_of_checkpoints);
 
@@ -93,7 +100,7 @@ cout<<endl<<"preferred house is"<<final_priority(row,priority);
 
 }
 
-void set_priority(int m,int n,int x,int y,float h[3][4],struct cp point[4],int checkpoint_no)
+void set_priority(int m,int n,int x,int y,vector< vector<float> > h,struct cp point[4],int checkpoint_no)
 {
     if(h[m][checkpoint_no]==h[n][checkpoint_no])
     {
@@ -112,7 +119,7 @@ void set_priority(int m,int n,int x,int y,float h[3][4],struct cp point[4],int c
     }
 }
 
-void combination(int arr[],struct cp point[4],float h[3][4],int no_of_checkpoints)
+void combination(int arr[],struct cp point[4],vector<vector<float>> h,int no_of_checkpoints)
 {int x=0,y;
 for(int z=0;z<no_of_checkpoints;z++)
         {x=0;
