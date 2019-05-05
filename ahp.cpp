@@ -3,8 +3,327 @@
 #include<iostream>
 #include<vector>
 #include<bits/stdc++.h>
-#include "print_distances.cpp" 
+#define v 19
+
 using namespace std;
+
+
+vector<pair<float,int>>returning_vectt(float key[], int n)
+{
+    vector<pair<float,int>> vect;
+    for(int i=0;i<n;++i)
+       vect.push_back(make_pair(key[i],i));
+       sort(vect.begin(),vect.end());
+       return vect;
+}
+
+ 
+int minDistance(float dist[], bool sptSet[],int n ) 
+{ 
+// Initialize min value 
+float min = INT_MAX;
+int min_index; 
+
+for (int i = 0; i < n; ++i) 
+	if (sptSet[i] == false && dist[i] <= min) 
+		min = dist[i], min_index = i; 
+
+return min_index; 
+} 
+
+
+
+
+vector<pair<float,int>> dijkstra( int n,float graph[v][v],int src) 
+{ 
+	float dist[n];	 
+
+	bool sptSet[n]; 
+
+	for (int i = 0; i < n; i++) 
+		dist[i] = INT_MAX, sptSet[i] = false; 
+
+	// Distance of source vertex from itself is always 0 
+	dist[src] = 0; 
+
+	// Find shortest path for all vertices 
+	for (int count = 0; count < n-1; count++) 
+	{ 
+	// Pick the minimum distance vertex from the set of vertices not 
+	// yet processed. u is always equal to src in the first iteration. 
+	int u = minDistance(dist, sptSet,n); 
+
+	// Mark the picked vertex as processed 
+	sptSet[u] = true; 
+
+	// Update dist value of the adjacent vertices of the picked vertex. 
+	for (int i= 0; i < n; i++) 
+
+		// Update dist[v] only if is not in sptSet, there is an edge from 
+		// u to v, and total weight of path from src to v through u is 
+		// smaller than current value of dist[v] 
+		if (!sptSet[i] && graph[u][i] && dist[u] != INT_MAX 
+									&& dist[u]+graph[u][i] < dist[i]) 
+			dist[i] = dist[u] + graph[u][i]; 
+	} 
+    return (returning_vectt(dist,n));
+
+
+} 
+
+
+
+
+vector<float> offices()
+{   vector<float> vect2;
+    //float graph[v][v];
+     float graph [v][v] = {
+        {0,4,8,0,8,0,0,0,0,0,0,0,8,0,0,0,2,0,0},
+        {4,0,11,8,11,0,0,0,0,0,0,0,10,12,0,0,0,9,0},
+        {8,11,0,0,1,2,6,2,0,0,11,0,8,0,0,3,0,0,0},
+        {0,8,0,0,0,0,7,4,0,7,2,0,0,8,0,0,0,0,0},
+        {0,11,1,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,6,7,7,0,0,0,0,0,0,9,0,0,0,0,0,0,0},
+        {0,0,2,4,0,0,0,0,10,14,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,10,0,9,4,0,0,0,0,0,0,0,0},
+        {0,0,0,7,0,0,0,14,9,0,1,0,0,0,0,0,0,0,0},
+        {0,0,11,2,0,0,0,0,4,1,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,9,0,0,0,0,0,2,3,0,0,0,0,0},
+        {8,10,8,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0},
+        {0,12,0,8,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,9},
+        {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+        {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3},
+        {0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,2},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,3,2,0}
+    };
+        for(int i=0;i<3;++i) 
+    {               
+    vector<pair<float, int>> vect = dijkstra(v,graph,i);
+     for(float j=0;j<10;++j)
+     {   if(vect[j].second==11||vect[j].second==12||vect[j].second==13||vect[j].second==14)
+            
+              { 
+                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                vect2.push_back(vect[j].first);
+             
+                  break;
+              }
+
+     }
+    }
+    
+
+return vect2;
+}
+
+vector<float> markets()
+{   vector<float> vect2;
+  
+    /*schools
+    bool *check = new bool[10];
+    memset(check, false, sizeof(check));*/
+
+    float graph[][19] = {
+        {0,4,8,0,8,0,0,0,0,0,0,0,8,0,0,0,2,0,0},
+        {4,0,11,8,11,0,0,0,0,0,0,0,10,12,0,0,0,9,0},
+        {8,11,0,0,1,2,6,2,0,0,11,0,8,0,0,3,0,0,0},
+        {0,8,0,0,0,0,7,4,0,7,2,0,0,8,0,0,0,0,0},
+        {0,11,1,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,6,7,7,0,0,0,0,0,0,9,0,0,0,0,0,0,0},
+        {0,0,2,4,0,0,0,0,10,14,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,10,0,9,4,0,0,0,0,0,0,0,0},
+        {0,0,0,7,0,0,0,14,9,0,1,0,0,0,0,0,0,0,0},
+        {0,0,11,2,0,0,0,0,4,1,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,9,0,0,0,0,0,2,3,0,0,0,0,0},
+        {8,10,8,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0},
+        {0,12,0,8,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,9},
+        {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+        {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3},
+        {0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,2},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,3,2,0}};
+    for(int i=0;i<3;++i) 
+    {               
+    vector<pair<float, int>> vect = dijkstra( v,graph,i);
+     for(float j=0;j<10;++j)
+     {   if(vect[j].second==7||vect[j].second==8||vect[j].second==9||vect[j].second==10)
+          
+              { 
+                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                vect2.push_back(vect[j].first);
+                //k++;
+                  break;
+              }
+
+     }
+    }
+    
+
+return vect2;
+}
+
+vector<float> hospitals()
+{   vector<float> vect2;
+   
+    float graph[v][v] = {
+        {0,4,8,0,8,0,0,0,0,0,0,0,8,0,0,0,2,0,0},
+        {4,0,11,8,11,0,0,0,0,0,0,0,10,12,0,0,0,9,0},
+        {8,11,0,0,1,2,6,2,0,0,11,0,8,0,0,3,0,0,0},
+        {0,8,0,0,0,0,7,4,0,7,2,0,0,8,0,0,0,0,0},
+        {0,11,1,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,6,7,7,0,0,0,0,0,0,9,0,0,0,0,0,0,0},
+        {0,0,2,4,0,0,0,0,10,14,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,10,0,9,4,0,0,0,0,0,0,0,0},
+        {0,0,0,7,0,0,0,14,9,0,1,0,0,0,0,0,0,0,0},
+        {0,0,11,2,0,0,0,0,4,1,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,9,0,0,0,0,0,2,3,0,0,0,0,0},
+        {8,10,8,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0},
+        {0,12,0,8,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,9},
+        {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+        {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3},
+        {0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,2},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,3,2,0}
+    };
+        for(int i=0;i<3;++i) 
+    {               
+    vector<pair<float, int>> vect = dijkstra(v,graph,i);
+     for(float j=0;j<10;++j)
+     {   if(vect[j].second==14||vect[j].second==15||vect[j].second==16||vect[j].second==17)
+          
+              { 
+                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                vect2.push_back(vect[j].first);
+                //k++;
+                  break;
+              }
+
+     }
+    }
+    
+
+return vect2;
+}
+
+vector<float> schools()
+{   vector<float> vect2;
+    
+    
+
+    float graph[][v] = {
+        {0,4,8,0,8,0,0,0,0,0,0,0,8,0,0,0,2,0,0},
+        {4,0,11,8,11,0,0,0,0,0,0,0,10,12,0,0,0,9,0},
+        {8,11,0,0,1,2,6,2,0,0,11,0,8,0,0,3,0,0,0},
+        {0,8,0,0,0,0,7,4,0,7,2,0,0,8,0,0,0,0,0},
+        {0,11,1,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,6,7,7,0,0,0,0,0,0,9,0,0,0,0,0,0,0},
+        {0,0,2,4,0,0,0,0,10,14,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,10,0,9,4,0,0,0,0,0,0,0,0},
+        {0,0,0,7,0,0,0,14,9,0,1,0,0,0,0,0,0,0,0},
+        {0,0,11,2,0,0,0,0,4,1,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,9,0,0,0,0,0,2,3,0,0,0,0,0},
+        {8,10,8,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0},
+        {0,12,0,8,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,9},
+        {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+        {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3},
+        {0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,2},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,3,2,0}
+    };
+    
+    for(int i=0;i<3;++i) 
+    {               
+    vector<pair<float, int>> vect =  dijkstra( v,graph, i);
+     for(float j=0;j<10;++j)
+     {   if(vect[j].second==3||vect[j].second==4||vect[j].second==5||vect[j].second==6)
+              { 
+                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                vect2.push_back(vect[j].first);
+                
+                  break;
+              }
+
+     }
+    }
+    
+
+return vect2;
+}
+
+vector<vector<float> > distances()
+{
+    vector<vector<float> > vectt;
+    vector<float> p1=schools();
+    vector<float> p2=hospitals();
+    vector<float> p3=markets();
+    vector<float> p4=offices();
+
+    vector<float> :: iterator ptr;
+     cout<<"For schools "<<endl;
+     //cout<<"cdthgdckyt";
+     int i=0 , j=0;
+     for(ptr=p1.begin();ptr!=p1.end();ptr++)
+        {    //cout<<"hgdcjtu";
+            //cout<<*ptr<<" ";
+            vectt[i][j]=*ptr;
+             j++;
+        }
+        cout<<endl;
+        i++;
+        j=0;
+  cout<<"For hospitals "<<endl;
+
+     for(ptr=p2.begin();ptr!=p2.end();ptr++)
+        {
+            //cout<<*ptr<<" ";
+            vectt[i][j]=*ptr;
+            j++;
+        }
+        cout<<endl;
+        i++;
+        j=0;
+
+cout<<"For markets "<<endl;
+     for(ptr=p3.begin();ptr!=p3.end();ptr++)
+        {
+            //cout<<*ptr<<" ";
+            vectt[i][j]=*ptr;
+        }
+        cout<<endl;
+        i++;
+        j=0;
+          
+cout<<"For offices "<<endl;
+
+     for(ptr=p1.begin();ptr!=p1.end();ptr++)
+        {
+            //cout<<*ptr<<" ";
+            vectt[i][j]=*ptr;
+        }
+        cout<<endl;
+
+      return vectt;
+
+}
+
+vector<vector<float>> get_distance()
+{
+    vector< vector<float> > vect=distances();
+    for(int i=0;i<3;++i)
+      {
+          for(int j=0;j<4;++j)
+            cout<<vect[i][j]<<" ";
+      }
+  cout<<"\n";
+  return vect;
+  //return 0;
+}
+
 struct comb
 {
     int h;
