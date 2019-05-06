@@ -2,6 +2,7 @@
   
 #include<iostream>
 #include<vector>
+#include<unistd.h>
 #include<bits/stdc++.h>
 #define v 19
 
@@ -14,6 +15,7 @@ vector<pair<float,int>>returning_vectt(float key[], int n)
     for(int i=0;i<n;++i)
        vect.push_back(make_pair(key[i],i));
        sort(vect.begin(),vect.end());
+       
        return vect;
 }
 
@@ -43,25 +45,22 @@ vector<pair<float,int>> dijkstra( int n,float graph[v][v],int src)
 	for (int i = 0; i < n; i++) 
 		dist[i] = INT_MAX, sptSet[i] = false; 
 
-	// Distance of source vertex from itself is always 0 
+	
 	dist[src] = 0; 
 
-	// Find shortest path for all vertices 
+	
 	for (int count = 0; count < n-1; count++) 
 	{ 
-	// Pick the minimum distance vertex from the set of vertices not 
-	// yet processed. u is always equal to src in the first iteration. 
+	
 	int u = minDistance(dist, sptSet,n); 
 
-	// Mark the picked vertex as processed 
+	
 	sptSet[u] = true; 
 
-	// Update dist value of the adjacent vertices of the picked vertex. 
+	 
 	for (int i= 0; i < n; i++) 
 
-		// Update dist[v] only if is not in sptSet, there is an edge from 
-		// u to v, and total weight of path from src to v through u is 
-		// smaller than current value of dist[v] 
+		
 		if (!sptSet[i] && graph[u][i] && dist[u] != INT_MAX 
 									&& dist[u]+graph[u][i] < dist[i]) 
 			dist[i] = dist[u] + graph[u][i]; 
@@ -76,7 +75,7 @@ vector<pair<float,int>> dijkstra( int n,float graph[v][v],int src)
 
 vector<float> offices()
 {   vector<float> vect2;
-    //float graph[v][v];
+    
      float graph [v][v] = {
         {0,4,8,0,8,0,0,0,0,0,0,0,8,0,0,0,2,0,0},
         {4,0,11,8,11,0,0,0,0,0,0,0,10,12,0,0,0,9,0},
@@ -101,13 +100,13 @@ vector<float> offices()
         for(int i=0;i<3;++i) 
     {               
     vector<pair<float, int>> vect = dijkstra(v,graph,i);
-     for(float j=0;j<10;++j)
+     for(int j=0;j<19;++j)
      {   if(vect[j].second==11||vect[j].second==12||vect[j].second==13||vect[j].second==14)
             
               { 
-                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                  //cout << "For house " << i+1 << " office " << vect[j].second-3 << " is at minimum distance of " << vect[j].first << "\n";
                 vect2.push_back(vect[j].first);
-             
+                
                   break;
               }
 
@@ -121,11 +120,9 @@ return vect2;
 vector<float> markets()
 {   vector<float> vect2;
   
-    /*schools
-    bool *check = new bool[10];
-    memset(check, false, sizeof(check));*/
+   
 
-    float graph[][19] = {
+    float graph[v][v] = {
         {0,4,8,0,8,0,0,0,0,0,0,0,8,0,0,0,2,0,0},
         {4,0,11,8,11,0,0,0,0,0,0,0,10,12,0,0,0,9,0},
         {8,11,0,0,1,2,6,2,0,0,11,0,8,0,0,3,0,0,0},
@@ -148,13 +145,13 @@ vector<float> markets()
     for(int i=0;i<3;++i) 
     {               
     vector<pair<float, int>> vect = dijkstra( v,graph,i);
-     for(float j=0;j<10;++j)
+     for(int j=0;j<19;++j)
      {   if(vect[j].second==7||vect[j].second==8||vect[j].second==9||vect[j].second==10)
           
               { 
-                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                  //cout << "For house " << i+1 << " market " << vect[j].second-3 << " is at minimum distance of " << vect[j].first << "\n";
                 vect2.push_back(vect[j].first);
-                //k++;
+                
                   break;
               }
 
@@ -192,13 +189,13 @@ vector<float> hospitals()
         for(int i=0;i<3;++i) 
     {               
     vector<pair<float, int>> vect = dijkstra(v,graph,i);
-     for(float j=0;j<10;++j)
+     for(float j=0;j<19;++j)
      {   if(vect[j].second==14||vect[j].second==15||vect[j].second==16||vect[j].second==17)
           
               { 
-                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                  //cout << "For house " << i+1 << " hospital " << vect[j].second-3 << " is at minimum distance of " << vect[j].first << "\n";
                 vect2.push_back(vect[j].first);
-                //k++;
+                
                   break;
               }
 
@@ -212,7 +209,7 @@ return vect2;
 vector<float> schools()
 {   vector<float> vect2;
     
-    
+   
 
     float graph[][v] = {
         {0,4,8,0,8,0,0,0,0,0,0,0,8,0,0,0,2,0,0},
@@ -239,10 +236,10 @@ vector<float> schools()
     for(int i=0;i<3;++i) 
     {               
     vector<pair<float, int>> vect =  dijkstra( v,graph, i);
-     for(float j=0;j<10;++j)
+     for(float j=0;j<19;++j)
      {   if(vect[j].second==3||vect[j].second==4||vect[j].second==5||vect[j].second==6)
               { 
-                  //cout << "For house " << i+1 << " school " << 10-(vect[j].second + 1) << " is at minimum distance of " << vect[j].first << "\n";
+                  //cout << "For house " << i+1 << " school " << vect[j].second-3 << " is at minimum distance of " << vect[j].first << "\n";
                 vect2.push_back(vect[j].first);
                 
                   break;
@@ -255,71 +252,50 @@ vector<float> schools()
 return vect2;
 }
 
-vector<vector<float> > distances()
+float** distances()
 {
-    vector<vector<float> > vectt;
-    vector<float> p1=schools();
-    vector<float> p2=hospitals();
-    vector<float> p3=markets();
-    vector<float> p4=offices();
+    
+    float **new_ptr = new float*[4];
+    for (int i = 0; i < 4; i++) {
+        new_ptr[i] = new float[3];
+    }
 
-    vector<float> :: iterator ptr;
-     cout<<"For schools "<<endl;
-     //cout<<"cdthgdckyt";
-     int i=0 , j=0;
-     for(ptr=p1.begin();ptr!=p1.end();ptr++)
-        {    //cout<<"hgdcjtu";
-            //cout<<*ptr<<" ";
-            vectt[i][j]=*ptr;
-             j++;
+    vector<vector<float>> p;
+    p.push_back(schools());
+    p.push_back(hospitals());
+    p.push_back(markets());
+    p.push_back(offices());
+    for (int i = 0; i < p.size(); i++) {
+        for (int j = 0; j < p[i].size(); j++) {
+            new_ptr[i][j] = p[i][j];
         }
-        cout<<endl;
-        i++;
-        j=0;
-  cout<<"For hospitals "<<endl;
-
-     for(ptr=p2.begin();ptr!=p2.end();ptr++)
-        {
-            //cout<<*ptr<<" ";
-            vectt[i][j]=*ptr;
-            j++;
-        }
-        cout<<endl;
-        i++;
-        j=0;
-
-cout<<"For markets "<<endl;
-     for(ptr=p3.begin();ptr!=p3.end();ptr++)
-        {
-            //cout<<*ptr<<" ";
-            vectt[i][j]=*ptr;
-        }
-        cout<<endl;
-        i++;
-        j=0;
-          
-cout<<"For offices "<<endl;
-
-     for(ptr=p1.begin();ptr!=p1.end();ptr++)
-        {
-            //cout<<*ptr<<" ";
-            vectt[i][j]=*ptr;
-        }
-        cout<<endl;
-
-      return vectt;
-
+    }
+    return new_ptr;
 }
 
-vector<vector<float>> get_distance()
+
+float **get_distance()
 {
-    vector< vector<float> > vect=distances();
-    for(int i=0;i<3;++i)
-      {
-          for(int j=0;j<4;++j)
-            cout<<vect[i][j]<<" ";
-      }
-  cout<<"\n";
+    float** vec=distances();
+   /* for (int i = 0; i < vec.size(); i++)
+{
+    for (int j = 0; j < vec[i].size(); j++)
+    {
+        cout << vec[i][j];
+    }
+}*/
+  //cout<<vect[2][0]<<" "<<vect[2][1]<<" "<<vect[2][2]<<" ";
+  float** vect = new float*[3];
+  for (int i = 0; i < 3; i++) {
+      vect[i] = new float[4];
+  }
+  for (int i = 0; i <3 ; i++)
+    {
+        for (int j = 0; j < 4; j++)
+            vect[i][j]=vec[j][i];
+        //cout << "\n ";
+    }
+
   return vect;
   //return 0;
 }
@@ -336,14 +312,17 @@ struct cp
     float checkpoint[3][3];
 
 };
-void combination(int arr[],struct cp point[4],vector<vector<float>> h,int no_of_checkpoints);// function to compare the houses pairwise
-void set_priority(int m,int n,int x,int y,vector<vector<float> > h,struct cp point[4] ,int checkpoint_no);// compares the priorities pairwise and assign them in a table
+void combination(int arr[],struct cp point[4],float** h,int no_of_checkpoints);// function to compare the houses pairwise
+void set_priority(int m,int n,int x,int y,float** h,struct cp point[4] ,int checkpoint_no);// compares the priorities pairwise and assign them in a table
 void col_row(float col[4][3],float row[3][4],struct cp point[4]);
 int final_priority(float row[3][4],int priority[4]);
 
 int main()
 
 {
+  		system("dot -Tpng -O colour_graph.dot");
+ system("xdg-open colour_graph.dot.png");
+
 int no_of_checkpoints=4;
 struct cp point[4];//array which stores the pairwise comparison tables of all the checkpoints
 int priority[no_of_checkpoints];// array to store the priorities input by the user
@@ -357,12 +336,12 @@ for(int i=0;i<no_of_checkpoints;i++)
     int arr[3]={0,1,2};
 //struct comb f[3][2];
 
-     vector<vector<float>> h= get_distance();
+    float** h= get_distance();
      
      /*{{100,300,200,400},
                 {200,500,100,300},
                 {200,100,400,300}};*/
-
+  
     combination(arr,point,h,no_of_checkpoints);
 
     for(int z=0;z<4;z++)
@@ -419,7 +398,7 @@ cout<<endl<<"preferred house is"<<final_priority(row,priority);
 
 }
 
-void set_priority(int m,int n,int x,int y,vector< vector<float> > h,struct cp point[4],int checkpoint_no)
+void set_priority(int m,int n,int x,int y,float** h,struct cp point[4],int checkpoint_no)
 {
     if(h[m][checkpoint_no]==h[n][checkpoint_no])
     {
@@ -438,7 +417,7 @@ void set_priority(int m,int n,int x,int y,vector< vector<float> > h,struct cp po
     }
 }
 
-void combination(int arr[],struct cp point[4],vector<vector<float>> h,int no_of_checkpoints)
+void combination(int arr[],struct cp point[4],float** h,int no_of_checkpoints)
 {int x=0,y;
 for(int z=0;z<no_of_checkpoints;z++)
         {x=0;
